@@ -6,7 +6,10 @@ async function userSignUpController(req,res)
 {
     try{
         const {email,password,name}=req.body
-        console.log("req.body",req.body)
+        const user=await userModel.findOne({email})
+        if(user){
+            throw new Error("Already user exists.")
+        }
         if(!email)
         {
             throw new Error("Please provide email")
@@ -29,7 +32,7 @@ async function userSignUpController(req,res)
                     password:hashPassword
                 }
             const userData = new userModel(payload)
-            const saveUser = userData.save()
+            const saveUser = await userData.save()
             res.status(201).json({
                 data: saveUser,
                 success : true,
@@ -38,8 +41,9 @@ async function userSignUpController(req,res)
             })
     }catch(err)
     {
+        
         res.json({
-            message : err,
+            message : err.message || err,
             error : true,
             success : false,
         })
