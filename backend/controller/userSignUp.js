@@ -10,14 +10,12 @@ async function userSignUpController(req,res)
         if(user){
             throw new Error("Already user exists.")
         }
-        if(!email)
-        {
+        if(!email){
             throw new Error("Please provide email")
         }
-        if(!password)
-            {
-                throw new Error("Please provide password")
-            }
+        if(!password){
+            throw new Error("Please provide password")
+        }
             if(!name)
                 {
                     throw new Error("Please provide name")
@@ -29,6 +27,7 @@ async function userSignUpController(req,res)
                 }
                 const payload={
                     ...req.body,
+                    role : "GENERAL",
                     password:hashPassword
                 }
             const userData = new userModel(payload)
