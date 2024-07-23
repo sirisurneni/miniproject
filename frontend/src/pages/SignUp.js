@@ -2,7 +2,6 @@ import React from 'react'
 import loginIcons from '../assest/signin.gif'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-
 import {Link,useNavigate} from "react-router-dom"
 import imageTobase64 from '../helpers/imageTobase64';
 import SummaryApi from '../common';

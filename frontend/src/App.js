@@ -35,19 +35,19 @@ function App() {
   },[])
   return (
     <>
-      <Context.Provider value={{
+    <Context.Provider value={{
         fetchUserDetails //user detail fetch
       }
 
       }>
-        <ToastContainer />
-        <Header/>
-        <main className='min-h-[calc(100vh-120px)]'>
-        <Outlet/>
-        </main>
-        
-        <Footer/>
-      </Context.Provider>  
+      <ToastContainer/>
+      <Header/>
+      <main className='min-h-[calc(100vh-120px)]'>
+      <Outlet/>
+      </main>
+      
+      <Footer/>
+      </Context.Provider>
     </>
   );
 }
