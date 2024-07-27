@@ -44,7 +44,7 @@ const Header = () => {
         </div>
         <div className='flex items-center gap-7'>
           <div className='relative  flex justify-center'>
-          <div className='text-3xl cursor-pointer'>
+          <div className='text-3xl cursor-pointer relative flex justify-center' onClick={()=>setMenuDisplay(preve =>!preve)}>
           {
             user?.profilePic ? (
               <img src={user?.profilePic} className='w-10 h-10 rounded-full' alt={user?.name} />
@@ -56,7 +56,7 @@ const Header = () => {
           </div>
           {
             menuDisplay&&(
-              <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded hidden '>
+              <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded '>
               <nav>
                 <Link to={"admin-panel"} className='whitespace-nowrap hover:bg-slate-100'>Admin Panel
                 </Link>
@@ -64,13 +64,7 @@ const Header = () => {
             </div>
             )
           }
-          <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded hidden '>
-            <nav>
-              <Link to={"admin-panel"} className='whitespace-nowrap hover:bg-slate-100'>Admin Panel
-              </Link>
-            </nav>
-          </div>
-          </div>
+        </div>
           <div className='text-2xl relative'>
           <span><FaShoppingCart/></span>
 
