@@ -27,16 +27,21 @@ const SignUp = () => {
         })
 
     }
-    const handleUploadPic =async(e) =>{
-      const file=e.target.files[0]
-      const imagePic = await imageTobase64(file)
-      
-      setData((preve)=>{
-        return {
-            ...preve,
-            profilePic : imagePic
+    const handleUploadPic = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            try {
+                const imagePic = await imageTobase64(file);
+                setData((prev) => ({
+                    ...prev,
+                    profilePic: imagePic,
+                }));
+            } catch (error) {
+                console.error("Error converting image to base64:", error);
+            }
+        } else {
+            console.error("No file selected.");
         }
-      })
     }
 
    const handleSubmit=async(e)=>{
