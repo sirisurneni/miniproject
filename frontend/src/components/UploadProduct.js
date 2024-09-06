@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { CgClose } from "react-icons/cg";
 import productCategory from "../helpers/productCategory";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import uploadImage from '../helpers/uploadImage';
 const UploadProduct = ({
     onClose
 }) => {
@@ -18,10 +19,13 @@ const UploadProduct = ({
     const handleOnChange=(e)=>{
 
     }
-    const handleUploadProduct = (e) =>{
+    const handleUploadProduct = async(e) =>{
         const file = e.target.files[0]
         setUploadProductImageInput(file.name)
         console.log("file",file)
+        const uploadImageCloudinary = await uploadImage(file)
+        console.log("upload Image",uploadImageCloudinary.url)
+
     }
   return (
     <div className='fixed w-full h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center'>
