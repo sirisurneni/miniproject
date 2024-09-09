@@ -7,7 +7,7 @@ const uploadProductPermission = async(userId)=>{
         return false
     }
 
-    return false
+    return true
 }
 
 module.exports = uploadProductPermission
