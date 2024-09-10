@@ -7,16 +7,30 @@ const AllProducts = () => {
 
   const [openUploadProduct,setOpenUploadProduct] =useState(false)
   const [allProduct,setAllProduct] = useState([])
+<<<<<<< HEAD
   const fetchAllProduct = async()=>{
+=======
+
+  const fetchAllProduct =async () =>{
+>>>>>>> d5f2acba7eadabff9e797910c65b908c4e2cec42
     const response = await fetch(SummaryApi.allProduct.url)
     const dataResponse = await response.json()
     console.log("product data",dataResponse)
     setAllProduct(dataResponse?.data || [])
+<<<<<<< HEAD
      
   }
   useEffect(()=>{
     fetchAllProduct()
   },[])
+=======
+  } 
+
+  useEffect(()=>{
+    fetchAllProduct()
+  },[])
+
+>>>>>>> d5f2acba7eadabff9e797910c65b908c4e2cec42
   return (
     <div>
       <div className='bg-white py-2 px-4 flex justify-between items-center'>
@@ -33,6 +47,18 @@ const AllProducts = () => {
           )
         })
       }
+      </div>
+
+      {/** all product */}
+      <div className='flex items-center gap-5 py-4'>
+        {
+          allProduct.map((product,index)=>{
+            return(
+              <AdminProductCard data={product} key={index+"allProduct"}/>
+              
+            )
+          })
+        }
       </div>
 
       {/** upload product component */}

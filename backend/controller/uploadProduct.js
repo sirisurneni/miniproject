@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const productModel = require("../models/productModel");
 const uploadProductPermission = require("../helpers/permission")
 async function UploadProductController(req, res) {
@@ -23,6 +24,23 @@ async function UploadProductController(req, res) {
         const uploadproduct = new productModel(req.body);
         const saveProduct = await uploadproduct.save();
         console.log("Product saved:", saveProduct);
+=======
+
+const uploadProductPermission = require("../helpers/permission")
+const productModel = require("../models/productModel")
+
+async function UploadProductController(req,res) {
+    console.log(req.body)
+    try{
+        const sessionUserId = req.userId
+
+        if(!uploadProductPermission(sessionUserId)){
+            throw new Error("Permission denied")
+        }
+
+        const uploadProduct = new productModel(req.body)
+        const saveProduct = await uploadProduct.save()
+>>>>>>> d5f2acba7eadabff9e797910c65b908c4e2cec42
 
         res.status(201).json({
             message: "Product uploaded successfully",

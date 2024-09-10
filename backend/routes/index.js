@@ -20,4 +20,8 @@ router.post("/update-user",authToken,updateUser)
 //product
 router.post("/upload-product",authToken,UploadProductController)
 router.get("/get-product",getProductController)
+<<<<<<< HEAD
+=======
+
+>>>>>>> d5f2acba7eadabff9e797910c65b908c4e2cec42
 module.exports = router;

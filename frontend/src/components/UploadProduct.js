@@ -5,6 +5,8 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadImage from '../helpers/uploadImage';
 import DisplayImage from './DisplayImage';
 import { MdDelete } from "react-icons/md";
+import SummaryApi from '../common';
+import {toast} from 'react-toastify'
 
 import { toast } from 'react-toastify';
 import SummaryApi from '../common';
@@ -62,6 +64,7 @@ const UploadProduct = ({
         })
     }
 
+<<<<<<< HEAD
     const handleSubmit = async (e) => {
         e.preventDefault();
         const requestData = {
@@ -111,6 +114,32 @@ const UploadProduct = ({
     
         
     
+=======
+    //**upload product 
+    const handleSubmit = async(e) =>{
+        e.preventDefault()
+        
+        const response = await fetch(SummaryApi.uploadProduct.url,{
+            method : SummaryApi.uploadProduct.method,
+            credentials : 'include',
+            headers : {
+                "content-type" : "appliccation/json"
+            },
+            body : JSON.stringify(data)
+        })
+
+        const responseData = await response.json()
+
+        if(responseData.success){
+            toast.success(responseData?.message)
+            onClose()
+        }
+
+        if(responseData.error){
+            toast.error(responseData?.message)
+        }
+    }
+>>>>>>> d5f2acba7eadabff9e797910c65b908c4e2cec42
 
   return (
     <div className='fixed w-full h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center'>
