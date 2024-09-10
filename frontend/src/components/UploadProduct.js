@@ -8,12 +8,13 @@ import { MdDelete } from "react-icons/md";
 import SummaryApi from '../common';
 import {toast} from 'react-toastify'
 
-import { toast } from 'react-toastify';
-import SummaryApi from '../common';
+
+
 
 
 const UploadProduct = ({
-    onClose
+    onClose,
+    fetchData
 }) => {
     const [data,setData]=useState({
         productName:"",
@@ -64,66 +65,15 @@ const UploadProduct = ({
         })
     }
 
-<<<<<<< HEAD
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const requestData = {
-            ...data,
-            price: Number(data.price),
-            sellingPrice: Number(data.sellingPrice)
-        };
-        const uploadProductUrl = SummaryApi?.uploadProduct?.url || 'http://fallback-url/api/upload-product';
-        const uploadProductMethod = SummaryApi?.uploadProduct?.method || 'POST';
-    
-        console.log('Using upload URL:', uploadProductUrl);
-    
-        if (!uploadProductUrl) {
-            console.error("Upload URL is undefined");
-            toast.error("Configuration error: Unable to find the upload URL.");
-            return;
-        }
-    
-        try {
-            const response = await fetch(uploadProductUrl, {
-                method: uploadProductMethod,
-                // credentials: 'include',
-                // headers: {
-                //     "Content-Type": "application/json"
-                // },
-                body: JSON.stringify(requestData)
-            });
-    
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-    
-            const responseData = await response.json();
-    
-            if (responseData.success) {
-                toast.success(responseData.message);
-                onClose();
-            } else if (responseData.error) {
-                //toast.error(responseData.message);
-                toast.error("siri mental");
-            }
-        } catch (error) {
-            console.error("Error during submission:", error);
-            toast.error("An unexpected error occurred.");
-        }
-    };
-    
-        
-    
-=======
     //**upload product 
     const handleSubmit = async(e) =>{
         e.preventDefault()
-        
+        console.log("Submitting data:", data);
         const response = await fetch(SummaryApi.uploadProduct.url,{
             method : SummaryApi.uploadProduct.method,
             credentials : 'include',
-            headers : {
-                "content-type" : "appliccation/json"
+            headers: {
+                "Content-Type": "application/json"  // Ensure correct Content-Type
             },
             body : JSON.stringify(data)
         })
@@ -133,13 +83,13 @@ const UploadProduct = ({
         if(responseData.success){
             toast.success(responseData?.message)
             onClose()
+            fetchData()
         }
 
         if(responseData.error){
             toast.error(responseData?.message)
         }
     }
->>>>>>> d5f2acba7eadabff9e797910c65b908c4e2cec42
 
   return (
     <div className='fixed w-full h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center'>
@@ -262,6 +212,7 @@ const UploadProduct = ({
                     rows={3} 
                     onChange={handleOnChange}
                     name='description'
+                    value={data.description} 
                 >
 
                 </textarea>
