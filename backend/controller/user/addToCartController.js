@@ -1,48 +1,48 @@
-const addToCartModel = require("../../models/cartProduct")
+const addToCartModel = require("../../models/cartProduct");
 
-const addToCartController = async(req,res)=>{
-    try{
-        const { productId } = req?.body
-        const currentUser = req.userId
+const addToCartController = async (req, res) => {
+    try {
+        const { productId } = req.body;
+        const currentUser = req.userId;
 
-        const isProductAvailable = await addToCartModel.findOne({ productId })
+        // Check if the product is already in the cart for the current user
+        const isProductInCart = await addToCartModel.findOne({
+            productId: productId,
+            userId: currentUser
+        });
 
-        console.log("isProductAvailabl   ",isProductAvailable)
-
-        if(isProductAvailable){
+        if (isProductInCart) {
             return res.json({
-                message : "Already exits in Add to cart",
-                success : false,
-                error : true
-            })
+                message: "Product is already in your cart",
+                success: false,
+                error: true
+            });
         }
 
-        const payload  = {
-            productId : productId,
-            quantity : 1,
-            userId : currentUser,
-        }
+        // Create a new cart entry
+        const payload = {
+            productId: productId,
+            quantity: 1,
+            userId: currentUser,
+        };
 
-        const newAddToCart = new addToCartModel(payload)
-        const saveProduct = await newAddToCart.save()
-
+        const newAddToCart = new addToCartModel(payload);
+        const savedProduct = await newAddToCart.save();
 
         return res.json({
-            data : saveProduct,
-            message : "Product Added in Cart",
-            success : true,
-            error : false
-        })
-        
+            data: savedProduct,
+            message: "Product added to cart",
+            success: true,
+            error: false
+        });
 
-    }catch(err){
+    } catch (err) {
         res.json({
-            message : err?.message || err,
-            error : true,
-            success : false
-        })
+            message: err.message || err,
+            error: true,
+            success: false
+        });
     }
-}
+};
 
-
-module.exports = addToCartController
+module.exports = addToCartController;
