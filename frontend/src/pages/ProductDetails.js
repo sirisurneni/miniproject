@@ -49,7 +49,7 @@ const ProductDetails = () => {
     console.log("data",data)
     useEffect(()=>{
         fetchProductDetails()
-    },[])
+    },[params])
 
     const handleMouseEnterProduct = (imageURL)=>{
         setActiveImage(imageURL)
