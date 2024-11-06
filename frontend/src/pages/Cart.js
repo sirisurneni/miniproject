@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import SummaryApi from '../common'
 import Context from '../context'
-import displayINRCurrency from '../helpers/displayCurrency'
 import { MdDelete } from "react-icons/md";
+import displayUSDCurrency from '../helpers/displayCurrency';
+import {loadStripe} from '@stripe/stripe-js';
+
 
 const Cart = () => {
     const [data,setData] = useState([])
@@ -19,11 +21,11 @@ const Cart = () => {
             headers : {
                 "content-type" : 'application/json'
             },
-        })
+        });
        
 
         const responseData = await response.json()
-
+        
         if(responseData.success){
             setData(responseData.data)
         }
@@ -113,6 +115,28 @@ const Cart = () => {
         }
     }
 
+    const handlePayment = async()=>{
+        const stripePromise = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+        const response = await fetch (SummaryApi.payment.url,{
+            method : SummaryApi.payment.method,
+            credentials : 'include',
+            headers : {
+                "content-type":'application/json'
+            },
+            body : JSON.stringify({
+                cartItems : data
+            })
+        })
+
+        const responseData = await response.json()
+
+        if(responseData?.id){
+            stripePromise.redirectToCheckout({sessionId : responseData.id})
+        }
+
+        console.log("payment response",responseData)
+    }
+
     const totalQty = data.reduce((previousValue,currentValue)=> previousValue + currentValue.quantity,0)
     const totalPrice = data.reduce((preve,curr)=> preve + (curr.quantity * curr?.productId?.sellingPrice) ,0)
   return (
@@ -140,6 +164,9 @@ const Cart = () => {
                              
                         ) : (
                           data.map((product,index)=>{
+
+                           
+
                            return(
                             <div key={product?._id+"Add To Cart Loading"} className='w-full bg-white h-32 my-2 border border-slate-300  rounded grid grid-cols-[128px,1fr]'>
                                 <div className='w-32 h-32 bg-slate-200'>
@@ -154,8 +181,8 @@ const Cart = () => {
                                     <h2 className='text-lg lg:text-xl text-ellipsis line-clamp-1'>{product?.productId?.productName}</h2>
                                     <p className='capitalize text-slate-500'>{product?.productId.category}</p>
                                     <div className='flex items-center justify-between'>
-                                            <p className='text-red-600 font-medium text-lg'>{displayINRCurrency(product?.productId?.sellingPrice)}</p>
-                                            <p className='text-slate-600 font-semibold text-lg'>{displayINRCurrency(product?.productId?.sellingPrice  * product?.quantity)}</p>
+                                            <p className='text-red-600 font-medium text-lg'>{displayUSDCurrency(product?.productId?.sellingPrice)}</p>
+                                            <p className='text-slate-600 font-semibold text-lg'>{displayUSDCurrency(product?.productId?.sellingPrice  * product?.quantity)}</p>
                                     </div>
                                     <div className='flex items-center gap-3 mt-1'>
                                         <button className='border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded ' onClick={()=>decraseQty(product?._id,product?.quantity)}>-</button>
@@ -172,7 +199,9 @@ const Cart = () => {
 
 
                 {/***summary  */}
-                <div className='mt-5 lg:mt-0 w-full max-w-sm'>
+                {
+                    data[0] && (
+                        <div className='mt-5 lg:mt-0 w-full max-w-sm'>
                         {
                             loading ? (
                             <div className='h-36 bg-slate-200 border border-slate-300 animate-pulse'>
@@ -188,15 +217,18 @@ const Cart = () => {
 
                                     <div className='flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600'>
                                         <p>Total Price</p>
-                                        <p>{displayINRCurrency(totalPrice)}</p>    
+                                        <p>{displayUSDCurrency(totalPrice)}</p>    
                                     </div>
 
-                                    <button className='bg-blue-600 p-2 text-white w-full mt-2'>Payment</button>
+                                    <button className='bg-blue-600 p-2 text-white w-full mt-2' onClick={handlePayment}>Payment</button>
 
                                 </div>
                             )
                         }
-                </div>
+                        </div>
+                    )
+                }
+                
         </div>
     </div>
   )

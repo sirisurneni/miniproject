@@ -3,11 +3,11 @@ import  { useNavigate, useParams } from 'react-router-dom'
 import SummaryApi from '../common'
 import { FaStar } from "react-icons/fa";
 import { FaStarHalf } from "react-icons/fa";
-import displayINRCurrency from '../helpers/displayCurrency';
 import VerticalCardProduct from '../components/VerticalCardProduct';
 import CategroyWiseProductDisplay from '../components/CategoryWiseProductDisplay';
 import addToCart from '../helpers/addToCart';
 import Context from '../context';
+import displayUSDCurrency from '../helpers/displayCurrency';
 
 const ProductDetails = () => {
   const [data,setData] = useState({
@@ -199,8 +199,8 @@ const ProductDetails = () => {
                 </div>
 
                 <div className='flex items-center gap-2 text-2xl lg:text-3xl font-medium my-1'>
-                  <p className='text-red-600'>{displayINRCurrency(data.sellingPrice)}</p>
-                  <p className='text-slate-400 line-through'>{displayINRCurrency(data.price)}</p>
+                  <p className='text-red-600'>{displayUSDCurrency(data.sellingPrice)}</p>
+                  <p className='text-slate-400 line-through'>{displayUSDCurrency(data.price)}</p>
                 </div>
 
                 <div className='flex items-center gap-3 my-2'>
